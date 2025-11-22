@@ -1,20 +1,21 @@
-def call(Map config){
-    pipeline{
-        environment{
+def call(Map config) {
+    pipeline {
+        environment {
             JAVAHOME = """${sh()}""".trim()
             JAVA_HOME = "$JAVAHOME"
             JAVA_TOOL_OPTIONS = " "
         }
         agent {
-        label 'jenkins-nimbus-agent'
+            label 'jenkins-nimbus-agent'
         }
-        stages{
-            stage('test'){
+        stages {
+            stage('test') {
                 steps {
-                    script{
+                    script {
                         echo "JAVA_HOME " + evn.JAVA_HOME
                     }
                 }
             }
         }
     }
+}
