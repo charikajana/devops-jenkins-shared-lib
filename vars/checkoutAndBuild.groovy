@@ -2,22 +2,16 @@ def call(Map config) {
     pipeline {
         agent any
 
-        environment {
-            JAVA_TOOL_OPTIONS = ""
-        }
-
         stages {
-            stage('Set JAVA_HOME') {
+            stage('Detect Java Home') {
                 steps {
                     script {
-                        // Get JAVA_HOME from system
                         def detectedJavaHome = sh(
-                                script: "dirname $(dirname $(readlink -f $(which java)))",
+                                script: '''dirname $(dirname $(readlink -f $(which java)))''',
                                 returnStdout: true
                         ).trim()
 
-                        echo "Detected JAVA_HOME: ${detectedJavaHome}"
-
+                        echo "JAVA_HOME: ${detectedJavaHome}"
                         env.JAVA_HOME = detectedJavaHome
                     }
                 }
@@ -25,9 +19,7 @@ def call(Map config) {
 
             stage('Test') {
                 steps {
-                    script {
-                        echo "JAVA_HOME = ${env.JAVA_HOME}"
-                    }
+                    echo "JAVA_HOME = ${env.JAVA_HOME}"
                 }
             }
         }
