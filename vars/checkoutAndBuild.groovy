@@ -5,9 +5,6 @@ def call(Map config) {
             JAVA_HOME = "$JAVAHOME"
             JAVA_TOOL_OPTIONS = " "
         }
-        agent {
-            label 'jenkins-nimbus-agent'
-        }
         stages {
             stage('test') {
                 steps {
