@@ -1,21 +1,23 @@
 def call(Map config) {
 
+    // Check last build status
+    def lastResult = currentBuild.rawBuild.getPreviousBuild()?.getResult()
+
     pipeline {
         agent any
 
-        // Parameters added here (will show only when manually re-triggered)
+        // Show parameters ONLY if previous build succeeded
         parameters {
-            booleanParam(name: 'BuildFlag', defaultValue: false, description: 'Enable Build Build Flag?')
-            booleanParam(name: 'skipUnitTests', defaultValue: false, description: 'Skip Unit Tests?')
-            booleanParam(name: 'promoteTrustedRepo', defaultValue: false, description: 'Promote Trusted Repo?')
+            if (lastResult == hudson.model.Result.SUCCESS) {
+                booleanParam(name: 'BuildFlag', defaultValue: false, description: 'Enable Build Flag?')
+                booleanParam(name: 'skipUnitTests', defaultValue: false, description: 'Skip Unit Tests?')
+                booleanParam(name: 'promoteTrustedRepo', defaultValue: false, description: 'Promote Trusted Repo?')
+            }
         }
 
         stages {
 
             stage('Detect Java Home') {
-                when {
-                    expression { return !params.BuildFlag }    // First job only (default run)
-                }
                 steps {
                     script {
                         def detectedJavaHome = sh(
