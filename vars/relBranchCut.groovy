@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'local-agent'
+        }
+    }
 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'develop', description: 'Branch to checkout')
