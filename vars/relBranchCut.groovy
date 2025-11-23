@@ -4,6 +4,7 @@ pipeline {
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'develop', description: 'Branch to checkout')
         string(name: 'RELEASE_VERSION', defaultValue: 'rel_25.12-01.00', description: 'Release Version')
+
     }
 
     stages {
