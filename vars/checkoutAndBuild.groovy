@@ -3,8 +3,11 @@ def call(Map config) {
     def lastResult = currentBuild.rawBuild.getPreviousBuild()?.getResult()
 
     pipeline {
-        agent any
-
+        agent {
+            node {
+                label 'local-agent'
+            }
+        }
         parameters {
             booleanParam(name: 'BuildFlag', defaultValue: false, description: 'Enable Build Flag?')
             booleanParam(name: 'skipUnitTests', defaultValue: false, description: 'Skip Unit Tests?')
